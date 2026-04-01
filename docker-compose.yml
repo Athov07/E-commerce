@@ -43,7 +43,7 @@ services:
     environment:
       - PORT=5100
       - KAFKA_BROKER=kafka:29092
-      - REDIS_HOST=redis
+      - REDIS_URL=redis://redis:6379
       - MONGO_URI=${DATABASE_URL}
     depends_on:
       - kafka

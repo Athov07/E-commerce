@@ -57,7 +57,7 @@ const LoginForm = ({ onSubmit, isLoading }) => {
       <div className="text-center text-sm text-gray-600">
         Don't have an account?{" "}
         <Link to="/register" className="text-primary font-semibold hover:underline">
-          Sign up for free
+          Sign Up 
         </Link>
       </div>
     </div>
