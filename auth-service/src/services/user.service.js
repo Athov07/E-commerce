@@ -71,7 +71,7 @@ export const processPasswordReset = async (phone, otp, newPassword) => {
     user.password = newPassword; 
     await user.save(); 
 
-    return true;
+    return user;
 };
 
 
