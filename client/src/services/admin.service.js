@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL_ADMIN || 'http://localhost:5000/api/admin';
+const API_URL = import.meta.env.VITE_API_BASE_URL + '/admin';
+// const API_URL = import.meta.env.VITE_API_URL_ADMIN || 'http://localhost:5000/api/admin';
 
 const getDashboardStats = async () => {
   const user = JSON.parse(localStorage.getItem('user'));
