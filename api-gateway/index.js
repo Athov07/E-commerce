@@ -22,7 +22,7 @@ const authProxy = createProxyMiddleware({
   changeOrigin: true,
   pathRewrite: {
     '^/api/auth': '',   
-    '^/api/admin': '', 
+    '^/api/admin': '/admin', 
   },
   onProxyReq: (proxyReq, req) => {
     console.log(`[Gateway]: Forwarding ${req.method} ${req.url} -> Auth Service`);
