@@ -11,10 +11,12 @@ import Register from './pages/store/Register';
 import VerifyOtp from './pages/store/VerifyOtp';
 import ForgotPassword from './pages/store/ForgotPassword';
 import ResetPassword from './pages/store/ResetPassword';
+import ProductDetailsPage from './pages/store/ProductDetailsPage';
 
 // Admin Pages
 import UserManager from './pages/admin/UserManager';
-// import ProductManager from './pages/admin/ProductManager';
+import ProductManager from './pages/admin/ProductManager';
+import CategoryManager from './pages/admin/CategoryManager';
 
 // Protection
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -31,6 +33,7 @@ function App() {
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/product/:productId" element={<ProductDetailsPage />} />
         </Route>
 
         {/* --- Protected Admin Routes --- */}
@@ -38,7 +41,8 @@ function App() {
           <Route element={<AdminLayout />}>
             <Route path="/admin/dashboard" element={<div className="text-2xl font-bold">Admin Stats Overview</div>} />
             <Route path="/admin/users" element={<UserManager />} />
-            {/* <Route path="/admin/products" element={<ProductManager />} /> */}
+            <Route path="/admin/products" element={<ProductManager />} />
+            <Route path="/admin/category" element={<CategoryManager />} />
             {/* Add other admin routes here */}
           </Route>
         </Route>

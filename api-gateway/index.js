@@ -32,9 +32,24 @@ const authProxy = createProxyMiddleware({
   }
 });
 
+
+const productProxy = createProxyMiddleware({
+  target: process.env.PRODUCT_SERVICE_URL,
+  changeOrigin: true,
+  pathRewrite: {
+    '^/api/products': '', 
+  },
+  onProxyReq: (proxyReq, req, res) => {
+    console.log(`[Gateway]: Product Request -> ${req.method} ${req.url}`);
+  }
+});
+
+
+
 // 3. Apply Routes
 app.use('/api/auth', authProxy);
 app.use('/api/admin', authProxy);
+app.use("/api/products", productProxy);
 
 
 app.get('/health', (req, res) => {

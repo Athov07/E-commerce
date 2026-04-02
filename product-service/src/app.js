@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(cookieParser());
 
 // Routes
-app.use("/api/products", productRouter);
+app.use("/", productRouter);
 
 // Global Error Middleware
 app.use(errorHandler);

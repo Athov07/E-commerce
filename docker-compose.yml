@@ -58,5 +58,21 @@ services:
     environment:
       - GATEWAY_PORT=5000
       - AUTH_SERVICE_URL=http://auth-service:5100
+      - PRODUCT_SERVICE_URL=http://product-service:5200
     depends_on:
       - auth-service
+      - product-service
+
+
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    ports:
+      - "5200:5200"
+    environment:
+      - PORT=5200
+      - KAFKA_BROKER=kafka:29092
+      - MONGO_URI=${DATABASE_URL}
+    depends_on:
+      - kafka
