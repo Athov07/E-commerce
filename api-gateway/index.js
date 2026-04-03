@@ -68,6 +68,17 @@ const addressProxy = createProxyMiddleware({
 });
 
 
+const orderProxy = createProxyMiddleware({
+  target: process.env.ORDER_SERVICE_URL,
+  pathRewrite: {
+    '^/api/order': '', 
+  },
+  onProxyReq: (proxyReq, req, res) => {
+    console.log(`[Gateway]: Order Request -> ${req.method} ${req.url}`);
+  }
+});
+
+
 
 // 3. Apply Routes
 app.use('/api/auth', authProxy);
@@ -75,6 +86,7 @@ app.use('/api/admin', authProxy);
 app.use("/api/products", productProxy);
 app.use('/api/cart', cartProxy);
 app.use("/api/address", addressProxy);
+app.use("/api/order", orderProxy);
 
 
 app.get('/health', (req, res) => {

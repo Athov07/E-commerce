@@ -14,6 +14,7 @@ import ResetPassword from './pages/store/ResetPassword';
 import ProductDetailsPage from './pages/store/ProductDetailsPage';
 import Cart from './pages/store/Cart'
 import Address from './pages/store/Address';
+import Order from './pages/store/Order';
 
 // Admin Pages
 import UserManager from './pages/admin/UserManager';
@@ -38,6 +39,7 @@ function App() {
           <Route path="/product/:productId" element={<ProductDetailsPage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/address" element={<Address />} />
+          <Route path="/order" element={<Order />} />
 
         </Route>
 
