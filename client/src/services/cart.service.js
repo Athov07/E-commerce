@@ -20,6 +20,7 @@ const cartService = {
     const response = await axios.post(`${API_URL}/add`, cartData, {
       headers: getAuthHeader(),
     });
+    window.dispatchEvent(new Event("cartUpdated"));
     return response.data;
   },
 
@@ -34,6 +35,7 @@ const cartService = {
     const response = await axios.delete(`${API_URL}/remove/${userId}/${productId}`, {
       headers: getAuthHeader(),
     });
+    window.dispatchEvent(new Event("cartUpdated"));
     return response.data;
   },
 };

@@ -18,6 +18,17 @@ const CartView = ({ items, onUpdateCount, onRemove, total }) => {
       <div className="lg:col-span-2 space-y-4">
         {items.map((item) => (
           <div key={item.productId} className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+            
+            {/* PRODUCT IMAGE ADDED HERE */}
+            <div className="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden border border-gray-50">
+              <img 
+                src={item.image || item.main_image} 
+                alt={item.name} 
+                className="w-full h-full object-cover"
+                onError={(e) => { e.target.src = 'https://via.placeholder.com/80?text=No+Image'; }}
+              />
+            </div>
+
             <div className="flex-1">
               <h4 className="font-bold text-gray-900">{item.name}</h4>
               <p className="text-blue-600 font-bold text-sm">Rs.{item.price}</p>

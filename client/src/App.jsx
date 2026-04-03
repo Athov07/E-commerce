@@ -12,6 +12,7 @@ import VerifyOtp from './pages/store/VerifyOtp';
 import ForgotPassword from './pages/store/ForgotPassword';
 import ResetPassword from './pages/store/ResetPassword';
 import ProductDetailsPage from './pages/store/ProductDetailsPage';
+import Cart from './pages/store/Cart'
 
 // Admin Pages
 import UserManager from './pages/admin/UserManager';
@@ -34,6 +35,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/product/:productId" element={<ProductDetailsPage />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
 
         {/* --- Protected Admin Routes --- */}

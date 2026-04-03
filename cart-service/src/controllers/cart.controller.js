@@ -2,34 +2,37 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Cart } from "../models/cart.model.js";
 import { sendCartEvent } from "../kafka/producers/cart.producer.js";
+import { getCartByUserId } from "../services/cart.service.js";
 
 // cart.controller.js
 export const addToCart = asyncHandler(async (req, res) => {
-  const { user_id, productId, name, price, quantity } = req.body;
-  
+  const { user_id, productId, name, price, quantity, image } = req.body;
+
   let cart = await Cart.findOne({ user_id });
   if (!cart) {
-    cart = await Cart.create({ user_id, items: [{ productId, name, price, quantity }] });
+    cart = await Cart.create({
+      user_id,
+      items: [{ productId, name, price, quantity, image }],
+    });
   } else {
-    const itemIndex = cart.items.findIndex(item => item.productId.toString() === productId);
+    const itemIndex = cart.items.findIndex(
+      (item) => item.productId.toString() === productId,
+    );
     if (itemIndex > -1) {
       cart.items[itemIndex].quantity += quantity;
+      cart.items[itemIndex].image = image;
     } else {
-      cart.items.push({ productId, name, price, quantity });
+      cart.items.push({ productId, name, price, quantity, image });
     }
     await cart.save();
   }
 
-  sendCartEvent("CART_UPDATED", cart).catch(err => {
+  sendCartEvent("CART_UPDATED", cart).catch((err) => {
     console.error("Kafka Background Error (Leadership Election):", err.message);
   });
 
   return res.status(200).json({ success: true, data: cart });
 });
-
-
-
-
 
 export const updateItemCount = asyncHandler(async (req, res) => {
   const { user_id, productId, quantity } = req.body;
@@ -73,4 +76,22 @@ export const removeFromCart = asyncHandler(async (req, res) => {
   }
 
   res.status(200).json({ success: true, data: cart });
+});
+
+export const getCart = asyncHandler(async (req, res) => {
+  const { user_id } = req.params;
+
+  const cart = await getCartByUserId(user_id);
+
+  if (!cart) {
+    return res.status(200).json({
+      success: true,
+      data: { user_id, items: [] },
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    data: cart,
+  });
 });

@@ -39,10 +39,12 @@ const ProductCard = ({ product }) => {
         productId: product._id,
         name: product.name,
         price: product.price,
+        image: product.main_image,
         quantity: 1, 
       };
 
       await cartService.addToCart(cartData);
+      window.dispatchEvent(new Event("cartUpdated"));
       
       setIsSuccess(true);
       setTimeout(() => setIsSuccess(false), 2000);

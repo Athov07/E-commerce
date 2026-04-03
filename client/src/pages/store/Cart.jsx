@@ -7,12 +7,20 @@ const Cart = () => {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Helper to get current user_id (handles guest UUID or Login ID)
+  // FIXED: Synchronized with ProductCard.jsx to check for both .id and ._id
   const getUserId = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user?._id) return user._id;
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        // This MUST match the logic in ProductCard
+        const loggedInId = user?.id || user?._id;
+        if (loggedInId) return loggedInId;
+      } catch (e) {
+        console.error("Error parsing user", e);
+      }
+    }
     
-    // Check for guest ID, create one if not exists
     let guestId = localStorage.getItem("guestId");
     if (!guestId) {
       guestId = `guest_${Math.random().toString(36).substr(2, 9)}`;
@@ -25,7 +33,11 @@ const Cart = () => {
     try {
       const userId = getUserId();
       const res = await cartService.getCart(userId);
-      setCart(res.data);
+      
+      // FIX: Check your console.log(res) here. 
+      // If your controller returns { success: true, data: cart }, 
+      // then the items are at res.data.data
+      setCart(res.data.data || res.data); 
     } catch (err) {
       console.error("Cart load failed", err);
     } finally {
@@ -52,6 +64,7 @@ const Cart = () => {
 
   const handleRemove = async (productId) => {
     try {
+      // Ensure your service expects (user_id, productId)
       await cartService.removeFromCart(getUserId(), productId);
       fetchCart();
     } catch (err) {
@@ -60,7 +73,9 @@ const Cart = () => {
   };
 
   const calculateTotal = () => {
-    return cart?.items?.reduce((acc, item) => acc + item.price * item.quantity, 0) || 0;
+    // Standardize currency calculation
+    const total = cart?.items?.reduce((acc, item) => acc + item.price * item.quantity, 0) || 0;
+    return total;
   };
 
   return (
