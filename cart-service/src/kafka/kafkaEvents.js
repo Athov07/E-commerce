@@ -1,0 +1,4 @@
+export const CART_EVENTS = {
+  CART_UPDATED: "CART_UPDATED",
+  CART_CLEARED: "CART_CLEARED",
+};

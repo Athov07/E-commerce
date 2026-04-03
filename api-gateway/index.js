@@ -45,11 +45,25 @@ const productProxy = createProxyMiddleware({
 });
 
 
+// Cart Service Proxy Configuration
+const cartProxy = createProxyMiddleware({
+  target: process.env.CART_SERVICE_URL,
+  pathRewrite: {
+    '^/api/cart': '', 
+  },
+  onProxyReq: (proxyReq, req, res) => {
+    console.log(`[Gateway]: Cart Request -> ${req.method} ${req.url}`);
+  }
+});
+
+
+
 
 // 3. Apply Routes
 app.use('/api/auth', authProxy);
 app.use('/api/admin', authProxy);
 app.use("/api/products", productProxy);
+app.use('/api/cart', cartProxy);
 
 
 app.get('/health', (req, res) => {
