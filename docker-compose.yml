@@ -60,10 +60,12 @@ services:
       - AUTH_SERVICE_URL=http://auth-service:5100
       - PRODUCT_SERVICE_URL=http://product-service:5200
       - CART_SERVICE_URL=http://cart-service:5300
+      - ADDRESS_SERVICE_URL=http://address-service:5400
     depends_on:
       - auth-service
       - product-service
       - cart-service
+      - address-service
 
 
   product-service:
@@ -88,6 +90,20 @@ services:
       - "5300:5300"
     environment:
       - PORT=5300
+      - KAFKA_BROKER=kafka:29092
+      - MONGO_URI=${DATABASE_URL}
+    depends_on:
+      - kafka
+
+
+  address-service:
+    build:
+      context: ./address-service
+      dockerfile: Dockerfile
+    ports:
+      - "5400:5400"
+    environment:
+      - PORT=5400
       - KAFKA_BROKER=kafka:29092
       - MONGO_URI=${DATABASE_URL}
     depends_on:

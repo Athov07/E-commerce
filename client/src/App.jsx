@@ -13,6 +13,7 @@ import ForgotPassword from './pages/store/ForgotPassword';
 import ResetPassword from './pages/store/ResetPassword';
 import ProductDetailsPage from './pages/store/ProductDetailsPage';
 import Cart from './pages/store/Cart'
+import Address from './pages/store/Address';
 
 // Admin Pages
 import UserManager from './pages/admin/UserManager';
@@ -36,6 +37,8 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/product/:productId" element={<ProductDetailsPage />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/address" element={<Address />} />
+
         </Route>
 
         {/* --- Protected Admin Routes --- */}

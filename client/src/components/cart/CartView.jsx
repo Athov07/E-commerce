@@ -1,7 +1,31 @@
 import React from "react";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CartView = ({ items, onUpdateCount, onRemove, total }) => {
+  const navigate = useNavigate();
+
+  // Redirect logic for checkout
+  const handleCheckoutRedirect = () => {
+    const userData = localStorage.getItem("user");
+    
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        // If user object exists and has data, they are logged in
+        if (user) {
+          navigate("/address");
+          return;
+        }
+      } catch (e) {
+        console.error("Error parsing user session", e);
+      }
+    }
+
+    // If no user found, redirect to login with a back-reference
+    navigate("/login", { state: { from: "/address" } });
+  };
+
   if (!items || items.length === 0) {
     return (
       <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200">
@@ -19,7 +43,7 @@ const CartView = ({ items, onUpdateCount, onRemove, total }) => {
         {items.map((item) => (
           <div key={item.productId} className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
             
-            {/* PRODUCT IMAGE ADDED HERE */}
+            {/* PRODUCT IMAGE */}
             <div className="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden border border-gray-50">
               <img 
                 src={item.image || item.main_image} 
@@ -79,7 +103,12 @@ const CartView = ({ items, onUpdateCount, onRemove, total }) => {
             <span className="font-bold text-gray-900">Total</span>
             <span className="text-2xl font-black text-blue-600">Rs.{total}</span>
           </div>
-          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-100">
+          
+          {/* UPDATED BUTTON WITH ONCLICK */}
+          <button 
+            onClick={handleCheckoutRedirect}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-100"
+          >
             Proceed to Checkout
           </button>
         </div>

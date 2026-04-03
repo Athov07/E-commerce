@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 // Routes
-app.use("/api/address", addressRouter);
+app.use("/", addressRouter);
 
 // Error Handling Middleware
 app.use(errorHandler);
