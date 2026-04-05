@@ -26,6 +26,13 @@ const addressService = {
   deleteAddress: async (id) => {
     const response = await axios.delete(`${API_URL}/${id}`, { headers: getAuthHeader() });
     return response.data;
+  },
+
+  getAllUserAddresses: async () => {
+    const response = await axios.get(`${API_URL}/admin/all`, { 
+      headers: getAuthHeader() 
+    });
+    return response.data;
   }
 };
 

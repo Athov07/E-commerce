@@ -8,7 +8,8 @@ import {
   CreditCard, 
   UserCircle, 
   Boxes,
-  LogOut 
+  LogOut,
+  Info
 } from 'lucide-react'; 
 
 const AdminLayout = () => {
@@ -18,7 +19,7 @@ const AdminLayout = () => {
     { name: 'Dashboard', path: '/admin/dashboard', icon: <LayoutDashboard size={20} /> },
     { name: 'User Manager', path: '/admin/users', icon: <Users size={20} /> },
     { name: 'Product Manager', path: '/admin/products', icon: <Package size={20} /> },
-    { name: 'Category Manager', path: '/admin/category', icon: <Package size={20} /> },
+    { name: 'Category Manager', path: '/admin/category', icon: <Info size={20} /> },
     { name: 'Address Manager', path: '/admin/addresses', icon: <MapPin size={20} /> },
     { name: 'Order Manager', path: '/admin/orders', icon: <ShoppingCart size={20} /> },
     { name: 'Payment Manager', path: '/admin/payments', icon: <CreditCard size={20} /> },

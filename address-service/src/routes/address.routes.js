@@ -4,8 +4,11 @@ import {
     createAddress,
     getMyAddresses,
     updateAddress,
-    removeAddress
+    removeAddress,
+    getAllUserAddresses
 } from "../controllers/address.controller.js";
+
+import { authorize } from "../middlewares/admin.middleware.js";
 
 const router = Router();
 
@@ -18,5 +21,7 @@ router.route("/")
 router.route("/:id")
     .put(updateAddress)
     .delete(removeAddress);
+
+router.get("/admin/all", protect, authorize("admin"), getAllUserAddresses);
 
 export default router;

@@ -23,10 +23,12 @@ export const createAddress = asyncHandler(async (req, res) => {
     res.status(201).json({ success: true, data: address });
 });
 
+
 export const getMyAddresses = asyncHandler(async (req, res) => {
     const addresses = await findUserAddresses(req.user.id);
     res.status(200).json({ success: true, data: addresses });
 });
+
 
 export const updateAddress = asyncHandler(async (req, res) => {
     const { id } = req.params;
@@ -50,6 +52,7 @@ export const updateAddress = asyncHandler(async (req, res) => {
     res.status(200).json({ success: true, data: address });
 });
 
+
 export const removeAddress = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const user_id = req.user.id;
@@ -61,4 +64,39 @@ export const removeAddress = asyncHandler(async (req, res) => {
     await sendAddressEvent(ADDRESS_EVENTS.ADDRESS_DELETED, { id, user_id });
 
     res.status(200).json({ success: true, message: "Address deleted successfully" });
+});
+
+
+export const getAllUserAddresses = asyncHandler(async (req, res) => {
+    const summary = await Address.aggregate([
+        {
+            $sort: { isDefault: -1, createdAt: -1 }
+        },
+        {
+            $group: {
+                _id: "$user_id",
+                totalAddresses: { $sum: 1 },
+                defaultAddress: { $first: "$$ROOT" } 
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                user_id: "$_id",
+                totalAddresses: 1,
+                name: "$defaultAddress.full_name",
+                phone: "$defaultAddress.phone",
+                city: "$defaultAddress.city",
+                state: "$defaultAddress.state",
+                pin_code: "$defaultAddress.pin_code",
+                country: "$defaultAddress.country"
+            }
+        },
+        { $sort: { name: 1 } }
+    ]);
+
+    res.status(200).json({
+        success: true,
+        data: summary
+    });
 });

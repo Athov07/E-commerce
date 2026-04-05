@@ -24,6 +24,8 @@ import UserManager from './pages/admin/UserManager';
 import ProductManager from './pages/admin/ProductManager';
 import CategoryManager from './pages/admin/CategoryManager';
 import OrderManager from './pages/admin/OrderManager';
+import AddressManager from './pages/admin/AddressManager';
+import PaymentManager from './pages/admin/PaymentManager';
 
 // Protection
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -58,6 +60,8 @@ function App() {
             <Route path="/admin/products" element={<ProductManager />} />
             <Route path="/admin/category" element={<CategoryManager />} />
             <Route path="/admin/orders" element={<OrderManager />} />
+            <Route path="/admin/addresses" element={<AddressManager />} />
+            <Route path="/admin/payments" element={<PaymentManager />} />
             {/* Add other admin routes here */}
           </Route>
         </Route>

@@ -94,3 +94,27 @@ export const verifyRazorpayPayment = asyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, message: "Payment Verified" });
 });
+
+
+// Admin: Get all payments with stats summary
+export const getAllPayments = asyncHandler(async (req, res) => {
+    const { status } = req.query;
+    const filter = status ? { status } : {};
+
+    const payments = await Payment.find(filter)
+        .sort({ createdAt: -1 })
+        .lean();
+    const stats = {
+        totalRevenue: payments
+            .filter(p => p.status === "SUCCESS")
+            .reduce((acc, curr) => acc + curr.amount, 0),
+        successCount: payments.filter(p => p.status === "SUCCESS").length,
+        failedCount: payments.filter(p => p.status === "FAILED").length
+    };
+
+    res.status(200).json({
+        success: true,
+        stats,
+        data: payments
+    });
+});

@@ -32,6 +32,12 @@ const paymentService = {
     });
     return res.data;
   },
+
+  getAllPayments: async (status = "") => {
+    const url = status ? `${API_URL}/admin/all?status=${status}` : `${API_URL}/admin/all`;
+    const response = await axios.get(url, { headers: getAuthHeader() });
+    return response.data;
+  },
 };
 
 export default paymentService;
