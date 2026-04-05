@@ -23,10 +23,19 @@ export const initiateRazorpay = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, rzpOrder, payment_id: payment._id });
 });
 
+
+
 export const captureCardPayment = asyncHandler(async (req, res) => {
   const { order_id, amount, card_info } = req.body;
 
-  // Internal Mock Logic
+  if (!card_info || !card_info.number) {
+    console.error("Payment Failed: card_info or card_number is missing in request body");
+    return res.status(400).json({ 
+      success: false, 
+      message: "Card information is required to process internal payment." 
+    });
+  }
+
   const payment = await Payment.create({
     order_id,
     user_id: req.user.id,
@@ -34,17 +43,25 @@ export const captureCardPayment = asyncHandler(async (req, res) => {
     provider: "INTERNAL",
     payment_method: "CARD",
     status: "SUCCESS",
-    card: card_info.number.slice(-4),
-    card_network: card_info.network,
-    card_type: card_info.type,
+    card: card_info.number.slice(-4), 
+    card_network: card_info.network || "UNKNOWN",
+    card_type: card_info.type || "DEBIT",
   });
 
-  await sendPaymentEvent(PAYMENT_EVENTS.PAYMENT_SUCCESS, {
-    order_id,
-    status: "SUCCESS",
-  });
-  res.status(200).json({ success: true, message: "Internal Payment Success" });
+  try {
+    await sendPaymentEvent(PAYMENT_EVENTS.PAYMENT_SUCCESS, {
+      order_id,
+      status: "SUCCESS",
+    });
+    console.log(`Payment event sent for Order: ${order_id}`);
+  } catch (kafkaError) {
+    console.error("Kafka failed to send event, but payment was saved:", kafkaError.message);
+  }
+
+  res.status(200).json({ success: true, message: "Internal Payment Success", data: payment });
 });
+
+
 
 export const verifyRazorpayPayment = asyncHandler(async (req, res) => {
   const {

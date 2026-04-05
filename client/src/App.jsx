@@ -17,11 +17,13 @@ import Address from './pages/store/Address';
 import Order from './pages/store/Order';
 import Payment from './pages/store/Payment';
 import OrdersHistory from './pages/store/OrdersHistory';
+import OrderDetailsPage from './pages/store/OrderDetailsPage'
 
 // Admin Pages
 import UserManager from './pages/admin/UserManager';
 import ProductManager from './pages/admin/ProductManager';
 import CategoryManager from './pages/admin/CategoryManager';
+import OrderManager from './pages/admin/OrderManager';
 
 // Protection
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -44,6 +46,7 @@ function App() {
           <Route path="/order" element={<Order />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/orders" element={<OrdersHistory />} />
+          <Route path="/orders/:id" element={<OrderDetailsPage />} />
 
         </Route>
 
@@ -54,6 +57,7 @@ function App() {
             <Route path="/admin/users" element={<UserManager />} />
             <Route path="/admin/products" element={<ProductManager />} />
             <Route path="/admin/category" element={<CategoryManager />} />
+            <Route path="/admin/orders" element={<OrderManager />} />
             {/* Add other admin routes here */}
           </Route>
         </Route>

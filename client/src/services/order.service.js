@@ -27,6 +27,20 @@ const orderService = {
       headers: getAuthHeader(),
     });
     return response.data;
+  },
+
+  getAllOrders: async () => {
+    const response = await axios.get(`${API_URL}/admin/all`, {
+      headers: getAuthHeader(),
+    });
+    return response.data;
+  },
+
+  updateOrderStatus: async (orderId, status) => {
+    const response = await axios.patch(`${API_URL}/admin/status/${orderId}`, { status }, {
+      headers: getAuthHeader(),
+    });
+    return response.data;
   }
 };
 

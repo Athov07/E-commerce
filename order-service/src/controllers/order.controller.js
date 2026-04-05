@@ -40,6 +40,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     order_id: order._id,
     product_id: item.productId,
     product_name: item.name,
+    image: item.image || item.main_image,
     price: item.price,
     quantity: item.quantity,
   }));
@@ -67,14 +68,59 @@ export const getOrderHistory = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user_id: req.user.id }).sort({
     createdAt: -1,
   });
-  res.status(200).json({ success: true, data: orders });
+  const ordersWithItems = await Promise.all(
+    orders.map(async (order) => {
+      const items = await OrderItem.find({ order_id: order._id });
+      return { 
+        ...order._doc, 
+        items 
+      };
+    })
+  );
+  res.status(200).json({ success: true, data: ordersWithItems });
 });
+
+
+
 
 export const getOrderSummary = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  
   const order = await Order.findOne({ _id: id, user_id: req.user.id });
   if (!order) throw new ApiError(404, "Order not found");
 
   const items = await OrderItem.find({ order_id: id });
-  res.status(200).json({ success: true, data: { order, items } });
+
+  res.status(200).json({ 
+    success: true, 
+    data: { 
+      order, 
+      items 
+    } 
+  });
 });
+
+
+
+export const getAllOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.find({}).sort({ createdAt: -1 });
+
+    if (!orders) {
+        throw new ApiError(404, "No orders found");
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Orders retrieved successfully",
+        data: orders
+    });
+});
+
+
+
+export const updateOrderStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  const order = await Order.findByIdAndUpdate(id, { status }, { new: true });
+  res.json({ success: true, data: order });
+};
