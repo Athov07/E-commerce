@@ -15,6 +15,8 @@ import ProductDetailsPage from './pages/store/ProductDetailsPage';
 import Cart from './pages/store/Cart'
 import Address from './pages/store/Address';
 import Order from './pages/store/Order';
+import Payment from './pages/store/Payment';
+import OrdersHistory from './pages/store/OrdersHistory';
 
 // Admin Pages
 import UserManager from './pages/admin/UserManager';
@@ -40,6 +42,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/address" element={<Address />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/orders" element={<OrdersHistory />} />
 
         </Route>
 

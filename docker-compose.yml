@@ -18,7 +18,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://127.0.0.1:9092,INTERNAL://kafka:29092
+      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://localhost:9092,INTERNAL://kafka:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -62,12 +62,14 @@ services:
       - CART_SERVICE_URL=http://cart-service:5300
       - ADDRESS_SERVICE_URL=http://address-service:5400
       - ORDER_SERVICE_URL=http://order-service:5500
+      - PAYMENT_SERVICE_URL=http://payment-service:5600
     depends_on:
       - auth-service
       - product-service
       - cart-service
       - address-service
       - order-service
+      - payment-service
 
 
   product-service:
@@ -120,6 +122,20 @@ services:
       - "5500:5500"
     environment:
       - PORT=5500
+      - KAFKA_BROKER=kafka:29092
+      - MONGO_URI=${DATABASE_URL}
+    depends_on:
+      - kafka
+
+
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    ports:
+      - "5600:5600"
+    environment:
+      - PORT=5600
       - KAFKA_BROKER=kafka:29092
       - MONGO_URI=${DATABASE_URL}
     depends_on:

@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 dotenv.config();
-
 import { Kafka, logLevel } from "kafkajs";
 
 const kafka = new Kafka({
@@ -13,11 +12,20 @@ export const producer = kafka.producer();
 export const consumer = kafka.consumer({ groupId: 'product-service-group' });
 
 export const connectKafka = async () => {
-    try {
-        await producer.connect();
-        await consumer.connect();
-        console.log("Kafka Producer & Consumer Connected");
-    } catch (error) {
-        console.error("Kafka Connection Error:", error);
+    let connected = false;
+
+    while (!connected) {
+        try {
+            await producer.connect();
+            await consumer.connect();
+            console.log("Product Service Kafka Producer & Consumer Connected");
+            connected = true; 
+        } catch (error) {
+            console.error(
+                "Product Service Kafka Connection Error. Retrying in 5 seconds...",
+                error.message
+            );
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+        }
     }
 };

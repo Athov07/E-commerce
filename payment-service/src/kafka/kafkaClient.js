@@ -11,11 +11,17 @@ export const producer = kafka.producer();
 export const consumer = kafka.consumer({ groupId: 'payment-service-group' });
 
 export const connectKafka = async () => {
-    try {
-        await producer.connect();
-        await consumer.connect();
-        console.log("Payment Service Kafka Connected");
-    } catch (error) {
-        console.error("Kafka Connection Error:", error.message);
+    let connected = false;
+
+    while (!connected) {
+        try {
+            await producer.connect();
+            await consumer.connect();
+            console.log("Payment Service Kafka Connected");
+            connected = true;
+        } catch (error) {
+            console.error("Payment Service Kafka Connection Error. Retrying in 5 seconds:", error.message);
+            await new Promise(resolve => setTimeout(resolve, 5000));
+        }
     }
 };

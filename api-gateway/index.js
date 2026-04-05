@@ -79,6 +79,16 @@ const orderProxy = createProxyMiddleware({
 });
 
 
+const paymentProxy = createProxyMiddleware({
+  target: process.env.PAYMENT_SERVICE_URL, 
+  pathRewrite: {
+    '^/api/payment': '', 
+  },
+  onProxyReq: (proxyReq, req, res) => {
+    console.log(`[Gateway]: Payment Request -> ${req.method} ${req.url}`);
+  }
+});
+
 
 // 3. Apply Routes
 app.use('/api/auth', authProxy);
@@ -87,6 +97,8 @@ app.use("/api/products", productProxy);
 app.use('/api/cart', cartProxy);
 app.use("/api/address", addressProxy);
 app.use("/api/order", orderProxy);
+app.use("/api/payment", paymentProxy);
+
 
 
 app.get('/health', (req, res) => {
