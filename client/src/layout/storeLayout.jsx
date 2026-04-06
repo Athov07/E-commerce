@@ -1,37 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import {
-  ShoppingCart,
-  User,
-  LogOut,
-  Package,
-  ChevronDown,
-} from "lucide-react";
+import { ShoppingCart, User, LogOut, Package, ChevronDown } from "lucide-react";
 import cartService from "../services/cart.service";
+import profileService from "../services/profile.service";
 
 const StoreLayout = () => {
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [count, setCount] = useState(0);
-
-  const user = JSON.parse(localStorage.getItem("user"));
+  
+  // Initialize state from localStorage
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const isLoggedIn = !!user;
 
-  const getUserId = () => {
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      try {
-        const user = JSON.parse(userData);
-        return user?.id || user?._id;
-      } catch (e) {
-        return null;
+  // --- Auth & Profile Logic ---
+  
+  // Refresh user state from LocalStorage when login/logout happens
+  const refreshAuthStatus = useCallback(() => {
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(savedUser);
+  }, []);
+
+  const syncProfileData = async () => {
+    // Check localStorage directly to ensure we have a token/user before calling API
+    if (!localStorage.getItem("user")) return; 
+    
+    try {
+      const res = await profileService.getProfile();
+      const profileData = res.data?.data || res.data || res;
+      
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      if (currentUser) {
+        const updatedUser = { ...currentUser, ...profileData };
+        setUser(updatedUser);
+        // Optional: Keep localStorage in sync with the latest avatar/name
+        localStorage.setItem("user", JSON.stringify(updatedUser));
       }
+    } catch (err) {
+      console.error("Failed to sync profile image", err);
     }
-    return localStorage.getItem("guestId");
   };
 
   const updateCount = async () => {
-    const userId = getUserId();
+    const userId = user?.id || user?._id || localStorage.getItem("guestId");
     if (!userId) return;
 
     try {
@@ -44,15 +55,42 @@ const StoreLayout = () => {
     }
   };
 
+  // --- Effects ---
+
   useEffect(() => {
     updateCount();
+    syncProfileData();
+    
+    // Listen for custom events
     window.addEventListener("cartUpdated", updateCount);
-    return () => window.removeEventListener("cartUpdated", updateCount);
-  }, []);
+    window.addEventListener("profileUpdated", syncProfileData);
+    window.addEventListener("authChange", refreshAuthStatus); // Key Fix
+    window.addEventListener("storage", refreshAuthStatus); // Sync across tabs
+    
+    return () => {
+      window.removeEventListener("cartUpdated", updateCount);
+      window.removeEventListener("profileUpdated", syncProfileData);
+      window.removeEventListener("authChange", refreshAuthStatus);
+      window.removeEventListener("storage", refreshAuthStatus);
+    };
+  }, [refreshAuthStatus]);
+
+  // Re-run specific syncs when the user object actually changes
+  useEffect(() => {
+    if (isLoggedIn) {
+      updateCount();
+      if (!user?.avatar_url) syncProfileData();
+    } else {
+      setCount(0);
+    }
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    setUser(null);
     setIsProfileOpen(false);
+    // Notify the rest of the app that auth state changed
+    window.dispatchEvent(new Event("authChange"));
     navigate("/login");
   };
 
@@ -70,7 +108,6 @@ const StoreLayout = () => {
           </Link>
 
           <div className="flex items-center gap-4 md:gap-6">
-            {/* CART ICON - MOVED OUTSIDE isLoggedIn TO SHOW FOR GUESTS */}
             <Link
               to="/cart"
               className="relative p-2 text-gray-600 hover:bg-gray-50 rounded-full transition-colors"
@@ -89,8 +126,16 @@ const StoreLayout = () => {
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center gap-2 p-1 pr-2 hover:bg-gray-50 rounded-full transition-all border border-transparent hover:border-gray-200"
                 >
-                  <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">
-                    {user.phone?.charAt(0) || "U"}
+                  <div className="w-8 h-8 rounded-full overflow-hidden border border-blue-100 shadow-sm bg-blue-50 flex-shrink-0">
+                    <img
+                      src={user?.avatar_url || "/default-avatar.png"}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/default-avatar.png";
+                      }}
+                    />
                   </div>
                   <ChevronDown
                     size={16}
@@ -108,7 +153,7 @@ const StoreLayout = () => {
                       <div className="px-4 py-2 border-b border-gray-50 mb-1">
                         <p className="text-xs text-gray-500">Logged in as</p>
                         <p className="text-sm font-semibold truncate">
-                          {user.phone}
+                          {user?.fullName || user?.phone || "User"}
                         </p>
                       </div>
                       <Link

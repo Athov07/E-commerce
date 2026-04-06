@@ -149,7 +149,7 @@ const PaymentManager = () => {
               filtered.map((p) => (
                 <tr key={p._id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-5">
-                    <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                    <div className="text-sm font-bold text-gray-700 flex items-center gap-2">
                       <CreditCard size={14} className="text-gray-400" /> 
                       Order: {p.order_id.slice(-6)}
                     </div>
@@ -157,11 +157,11 @@ const PaymentManager = () => {
                       <Hash size={10} /> User: {p.user_id}
                     </div>
                   </td>
-                  <td className="px-6 py-5 font-black text-gray-900 text-sm">
+                  <td className="px-6 py-5 font-bold text-gray-700 text-sm">
                     {p.currency} {p.amount}
                   </td>
                   <td className="px-6 py-5">
-                    <div className="text-xs font-bold text-gray-600 uppercase tracking-tighter">
+                    <div className="text-xs font-bold text-gray-700 uppercase tracking-tighter">
                       {p.provider} • {p.payment_method || "N/A"}
                     </div>
                     {p.card && (
@@ -178,7 +178,7 @@ const PaymentManager = () => {
                       {p.status}
                     </span>
                   </td>
-                  <td className="px-6 py-5 text-right text-xs font-bold text-gray-400">
+                  <td className="px-6 py-5 text-right text-xs font-bold text-gray-500">
                     {new Date(p.createdAt).toLocaleDateString()}
                   </td>
                 </tr>

@@ -1,35 +1,62 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Users, 
-  Package, 
-  MapPin, 
-  ShoppingCart, 
-  CreditCard, 
-  UserCircle, 
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Users,
+  Package,
+  MapPin,
+  ShoppingCart,
+  CreditCard,
+  UserCircle,
   Boxes,
   LogOut,
-  Info
-} from 'lucide-react'; 
+  Info,
+} from "lucide-react";
 
 const AdminLayout = () => {
   const navigate = useNavigate();
 
   const menuItems = [
-    { name: 'Dashboard', path: '/admin/dashboard', icon: <LayoutDashboard size={20} /> },
-    { name: 'User Manager', path: '/admin/users', icon: <Users size={20} /> },
-    { name: 'Product Manager', path: '/admin/products', icon: <Package size={20} /> },
-    { name: 'Category Manager', path: '/admin/category', icon: <Info size={20} /> },
-    { name: 'Address Manager', path: '/admin/addresses', icon: <MapPin size={20} /> },
-    { name: 'Order Manager', path: '/admin/orders', icon: <ShoppingCart size={20} /> },
-    { name: 'Payment Manager', path: '/admin/payments', icon: <CreditCard size={20} /> },
-    { name: 'Profile Manager', path: '/admin/profile', icon: <UserCircle size={20} /> },
-    { name: 'Inventory', path: '/admin/inventory', icon: <Boxes size={20} /> },
+    {
+      name: "Dashboard",
+      path: "/admin/dashboard",
+      icon: <LayoutDashboard size={20} />,
+    },
+    { name: "User Manager", path: "/admin/users", icon: <Users size={20} /> },
+    {
+      name: "Product Manager",
+      path: "/admin/products",
+      icon: <Package size={20} />,
+    },
+    {
+      name: "Category Manager",
+      path: "/admin/category",
+      icon: <Info size={20} />,
+    },
+    {
+      name: "Address Manager",
+      path: "/admin/addresses",
+      icon: <MapPin size={20} />,
+    },
+    {
+      name: "Order Manager",
+      path: "/admin/orders",
+      icon: <ShoppingCart size={20} />,
+    },
+    {
+      name: "Payment Manager",
+      path: "/admin/payments",
+      icon: <CreditCard size={20} />,
+    },
+    {
+      name: "Profile Manager",
+      path: "/admin/profiles",
+      icon: <UserCircle size={20} />,
+    },
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    navigate('/login');
+    localStorage.removeItem("user");
+    navigate("/login");
   };
 
   return (
@@ -39,19 +66,32 @@ const AdminLayout = () => {
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
             A
           </div>
-          <span className="text-xl font-bold text-white tracking-tight">AdminPanel</span>
+          <span className="text-xl font-bold text-white tracking-tight">
+            AdminPanel
+          </span>
         </div>
 
-        <nav className="flex-grow p-4 space-y-1 mt-4 overflow-y-auto custom-scrollbar">
+        <nav
+          className="flex-grow p-4 space-y-1 mt-4 overflow-y-auto scrollbar-hide"
+          style={{
+            msOverflowStyle: "none",
+            scrollbarWidth: "none",
+          }}
+        >
+          <style>{`
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+  `}</style>
           {menuItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
-                  isActive 
-                    ? 'bg-primary text-white shadow-lg shadow-blue-900/20' 
-                    : 'hover:bg-slate-800 hover:text-white'
+                  isActive
+                    ? "bg-primary text-white shadow-lg shadow-blue-900/20"
+                    : "hover:bg-slate-800 hover:text-white"
                 }`
               }
             >
@@ -80,17 +120,17 @@ const AdminLayout = () => {
             <span>Pages</span>
             <span>/</span>
             <span className="text-gray-900 font-medium capitalize">
-              {window.location.pathname.split('/').pop().replace('-', ' ')}
+              {window.location.pathname.split("/").pop().replace("-", " ")}
             </span>
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <div className="text-right hidden sm:block">
               <p className="text-sm font-semibold text-gray-900">System Admin</p>
               <p className="text-xs text-gray-500">admin@ecommerce.com</p>
             </div>
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 border-2 border-white shadow-sm"></div>
-          </div>
+          </div> */}
         </header>
 
         <main className="mt-16 p-8 min-h-[calc(100vh-64px)]">

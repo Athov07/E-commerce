@@ -15,7 +15,7 @@ const Login = () => {
         throw new Error("User data not found in response");
       }
 
-      // console.log("Logged in user role:", user.role);
+      window.dispatchEvent(new Event("authChange"));
 
       if (user.role === 'admin') {
         navigate('/admin/dashboard');

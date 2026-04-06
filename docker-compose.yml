@@ -63,6 +63,7 @@ services:
       - ADDRESS_SERVICE_URL=http://address-service:5400
       - ORDER_SERVICE_URL=http://order-service:5500
       - PAYMENT_SERVICE_URL=http://payment-service:5600
+      - PROFILE_SERVICE_URL=http://profile-service:5700
     depends_on:
       - auth-service
       - product-service
@@ -70,6 +71,7 @@ services:
       - address-service
       - order-service
       - payment-service
+      - profile-service
 
 
   product-service:
@@ -136,6 +138,20 @@ services:
       - "5600:5600"
     environment:
       - PORT=5600
+      - KAFKA_BROKER=kafka:29092
+      - MONGO_URI=${DATABASE_URL}
+    depends_on:
+      - kafka
+
+
+  profile-service:
+    build:
+      context: ./profile-service
+      dockerfile: Dockerfile
+    ports:
+      - "5700:5700"
+    environment:
+      - PORT=5700
       - KAFKA_BROKER=kafka:29092
       - MONGO_URI=${DATABASE_URL}
     depends_on:

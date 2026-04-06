@@ -90,6 +90,17 @@ const paymentProxy = createProxyMiddleware({
 });
 
 
+const profileProxy = createProxyMiddleware({
+  target: process.env.PROFILE_SERVICE_URL,
+  pathRewrite: {
+    '^/api/profile': '',
+  },
+  onProxyReq: (proxyReq, req, res) => {
+    console.log(`[Gateway]: Profile Request -> ${req.method} ${req.url}`);
+  }
+});
+
+
 // 3. Apply Routes
 app.use('/api/auth', authProxy);
 app.use('/api/admin', authProxy);
@@ -98,6 +109,7 @@ app.use('/api/cart', cartProxy);
 app.use("/api/address", addressProxy);
 app.use("/api/order", orderProxy);
 app.use("/api/payment", paymentProxy);
+app.use("/api/profile", profileProxy);
 
 
 

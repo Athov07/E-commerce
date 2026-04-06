@@ -67,7 +67,7 @@ const OrderManager = () => {
         </div>
         <button
           onClick={fetchAllOrders}
-          className="flex items-center gap-2 text-primary bg-primary/10 hover:bg-primary/20 px-4 py-2 rounded-lg font-bold transition-all"
+          className="flex items-center gap-2 text-white bg-primary hover:bg-primary/20 px-4 py-2 rounded-lg font-bold transition-all"
         >
           <RefreshCcw size={18} className={loading ? "animate-spin" : ""} />
           Refresh List
