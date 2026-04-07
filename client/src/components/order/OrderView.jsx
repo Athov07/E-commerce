@@ -14,13 +14,10 @@ const OrderView = ({ orders, onSelect }) => {
         <div
           key={order._id}
           onClick={() => onSelect(order._id)}
-          // Applied 'bg-white' and 'shadow-md' to match your form containers
           className="bg-white border border-gray-200 rounded-lg p-6 shadow-md hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer group"
         >
-          {/* Header Section */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
             <div className="flex items-center gap-4">
-              {/* Uses your 'primary' color with opacity for the icon background */}
               <div className="p-3 bg-primary/10 text-primary rounded-lg">
                 <ShoppingCart size={24} />
               </div>
@@ -47,7 +44,6 @@ const OrderView = ({ orders, onSelect }) => {
                   })}
                 </div>
               </div>
-              {/* Status Badge using your 'success' and 'accent' (amber) tokens */}
               <span
                 className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border ${
                   ["SUCCESS", "CONFIRMED", "DELIVERED"].includes(order.status)

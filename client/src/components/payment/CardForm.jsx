@@ -22,7 +22,7 @@ const CardForm = ({ onSubmit, loading, total }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 animate-in fade-in slide-in-from-right-4">
-      <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-6">
+      <div className="bg-gray-50 p-4 rounded-2xl border border-gray-200 mb-6">
         <p className="text-xs text-gray-400 font-bold uppercase mb-1">Amount to Pay</p>
         <p className="text-2xl font-black text-blue-600">Rs.{total}</p>
       </div>

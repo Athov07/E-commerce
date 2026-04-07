@@ -41,7 +41,7 @@ const CartView = ({ items, onUpdateCount, onRemove, total }) => {
       {/* Items List */}
       <div className="lg:col-span-2 space-y-4">
         {items.map((item) => (
-          <div key={item.productId} className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+          <div key={item.productId} className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
             
             {/* PRODUCT IMAGE */}
             <div className="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden border border-gray-50">
@@ -87,16 +87,12 @@ const CartView = ({ items, onUpdateCount, onRemove, total }) => {
 
       {/* Summary Sidebar */}
       <div className="lg:col-span-1">
-        <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm sticky top-6">
+        <div className="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm sticky top-6">
           <h3 className="text-lg font-bold text-gray-900 mb-4">Order Summary</h3>
           <div className="space-y-3 pb-4 border-b border-gray-50">
             <div className="flex justify-between text-gray-600">
               <span>Subtotal</span>
               <span>Rs.{total}</span>
-            </div>
-            <div className="flex justify-between text-gray-600">
-              <span>Delivery</span>
-              <span className="text-green-600 font-medium">Free</span>
             </div>
           </div>
           <div className="flex justify-between items-center pt-4 mb-6">

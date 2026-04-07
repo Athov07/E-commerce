@@ -121,7 +121,7 @@ const Order = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-8">
           {/* Address Card */}
-          <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+          <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm">
             <div className="flex items-center gap-3 mb-6 text-blue-600">
               <MapPin size={24} />
               <h3 className="text-xl font-bold text-gray-900">
@@ -155,7 +155,7 @@ const Order = () => {
           </div>
 
           {/* Items Review */}
-          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="p-6 border-b border-gray-50 bg-gray-50/50">
               <h3 className="font-bold text-gray-900">
                 Review Items ({cart?.items?.length || 0})
@@ -209,7 +209,7 @@ const Order = () => {
 
         {/* Sidebar Summary */}
         <div className="lg:col-span-1">
-          <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-xl sticky top-24">
+          <div className="bg-white p-8 rounded-[2.5rem] border border-gray-200 shadow-xl sticky top-24">
             <h3 className="text-2xl font-black text-gray-900 mb-8">
               Order Total
             </h3>

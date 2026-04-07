@@ -63,7 +63,7 @@ const Payment = () => {
 
       <div className="space-y-6">
         {/* Method Toggle */}
-        <div className="flex p-1 bg-gray-100 rounded-2xl">
+        <div className="flex p-1 bg-gray-200 rounded-2xl">
           <button
             onClick={() => setMethod("RAZORPAY")}
             className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${method === "RAZORPAY" ? "bg-white shadow-sm text-blue-600" : "text-gray-500"}`}
@@ -81,8 +81,8 @@ const Payment = () => {
         {/* Dynamic Payment Option */}
         <div className="bg-white p-2 min-h-[300px]">
           {method === "RAZORPAY" ? (
-            <div className="space-y-6 animate-in fade-in slide-in-from-left-4">
-              <div className="bg-blue-50 p-6 rounded-3xl border border-blue-100 text-center">
+            <div className="space-y-6 animate-in fade-in slide-in-from-left-4 ">
+              <div className="bg-gray-200 p-6 rounded-3xl border border-blue-100 text-center">
                 <p className="text-blue-600 text-xs font-black uppercase tracking-widest mb-2">
                   Secure Gateway
                 </p>
@@ -105,21 +105,6 @@ const Payment = () => {
               total={total}
             />
           )}
-        </div>
-
-        <div className="border-t border-gray-100 pt-8 flex items-center justify-center gap-4 text-gray-400">
-          <div className="flex items-center gap-1">
-            <ShieldCheck size={16} />{" "}
-            <span className="text-[10px] font-bold uppercase">
-              SSL Encrypted
-            </span>
-          </div>
-          <div className="flex items-center gap-1">
-            <CheckCircle2 size={16} />{" "}
-            <span className="text-[10px] font-bold uppercase">
-              PCI Compliant
-            </span>
-          </div>
         </div>
       </div>
     </div>
