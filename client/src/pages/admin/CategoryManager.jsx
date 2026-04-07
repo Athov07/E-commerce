@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import productService from "../../services/product.service";
-import { Loader2, Tag, Trash2, AlertCircle, Search } from "lucide-react"; // Added Search icon
+import { Loader2, Tag, Trash2, AlertCircle, Search } from "lucide-react";
 
 const CategoryManager = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categoryName, setCategoryName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // --- Search State ---
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -30,7 +30,7 @@ const CategoryManager = () => {
 
   // --- Filter Logic ---
   const filteredCategories = categories.filter((cat) =>
-    cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+    cat.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const handleAddCategory = async (e) => {
@@ -67,9 +67,9 @@ const CategoryManager = () => {
           <Tag size={24} />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Category Manager</h1>
-          <p className="text-sm text-gray-500">
-            Organize your product classifications
+          <h1 className="text-2xl font-bold text-gray-900">Category Manager</h1>
+          <p className="text-lg text-gray-600 mt-1">
+            Total categories: {categories.length}
           </p>
         </div>
       </div>
@@ -108,8 +108,11 @@ const CategoryManager = () => {
         <div className="lg:col-span-2 space-y-4">
           {/* Search Input for Categories */}
           <div className="relative group">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" size={18} />
-            <input 
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"
+              size={18}
+            />
+            <input
               type="text"
               placeholder="Search categories..."
               value={searchTerm}
@@ -161,12 +164,17 @@ const CategoryManager = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="2" className="p-10 text-center text-gray-400">
+                      <td
+                        colSpan="2"
+                        className="p-10 text-center text-gray-400"
+                      >
                         <AlertCircle
                           className="mx-auto mb-2 opacity-20"
                           size={40}
                         />
-                        {searchTerm ? "No matching categories found." : "No categories found."}
+                        {searchTerm
+                          ? "No matching categories found."
+                          : "No categories found."}
                       </td>
                     </tr>
                   )}

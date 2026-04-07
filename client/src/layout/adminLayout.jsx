@@ -123,14 +123,6 @@ const AdminLayout = () => {
               {window.location.pathname.split("/").pop().replace("-", " ")}
             </span>
           </div>
-
-          {/* <div className="flex items-center gap-4">
-            <div className="text-right hidden sm:block">
-              <p className="text-sm font-semibold text-gray-900">System Admin</p>
-              <p className="text-xs text-gray-500">admin@ecommerce.com</p>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 border-2 border-white shadow-sm"></div>
-          </div> */}
         </header>
 
         <main className="mt-16 p-8 min-h-[calc(100vh-64px)]">

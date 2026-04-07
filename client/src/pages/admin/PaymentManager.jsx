@@ -9,7 +9,7 @@ import {
   ShieldCheck,
   Filter,
 } from "lucide-react";
-import paymentService from "../../services/payment.service"; 
+import paymentService from "../../services/payment.service";
 
 const PaymentManager = () => {
   const [payments, setPayments] = useState([]);
@@ -19,7 +19,7 @@ const PaymentManager = () => {
     failedCount: 0,
   });
   const [loading, setLoading] = useState(true);
-  
+
   // --- Filter States ---
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -30,7 +30,9 @@ const PaymentManager = () => {
       // Logic: Using the service you already defined
       const res = await paymentService.getAllPayments(statusFilter);
       setPayments(res.data || []);
-      setStats(res.stats || { totalRevenue: 0, successCount: 0, failedCount: 0 });
+      setStats(
+        res.stats || { totalRevenue: 0, successCount: 0, failedCount: 0 },
+      );
     } catch (err) {
       console.error("Payment sync failed", err);
     } finally {
@@ -55,12 +57,21 @@ const PaymentManager = () => {
     <div className="p-6 max-w-7xl mx-auto">
       {/* Header Area */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">Transaction Ledger</h2>
-          <p className="text-sm text-gray-500 mt-1">
-            Total Success Revenue:{" "}
-            <span className="text-green-600 font-bold">Rs. {stats.totalRevenue}</span>
-          </p>
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-blue-100 text-blue-600 rounded-2xl">
+            <CreditCard size={24} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">
+              Transaction Ledger
+            </h2>
+            <p className="text-lg text-gray-600 mt-1">
+              Total Success Revenue:{" "}
+              <span className="text-green-600 font-bold">
+                Rs. {stats.totalRevenue}
+              </span>
+            </p>
+          </div>
         </div>
 
         <button
@@ -76,30 +87,40 @@ const PaymentManager = () => {
       {/* Stats Summary Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="bg-green-50 p-3 rounded-xl text-green-600">
+          <div className="bg-green-50 p-3 rounded-xl text-green-700">
             <IndianRupee size={20} />
           </div>
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase">Successful</p>
-            <p className="text-xl font-black text-gray-900">{stats.successCount}</p>
+            <p className="text-xs font-bold text-gray-400 uppercase">
+              Successful
+            </p>
+            <p className="text-xl font-black text-gray-900">
+              {stats.successCount}
+            </p>
           </div>
         </div>
         <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="bg-red-50 p-3 rounded-xl text-red-600">
+          <div className="bg-red-50 p-3 rounded-xl text-red-700">
             <XCircle size={20} />
           </div>
           <div>
             <p className="text-xs font-bold text-gray-400 uppercase">Failed</p>
-            <p className="text-xl font-black text-gray-900">{stats.failedCount}</p>
+            <p className="text-xl font-black text-gray-900">
+              {stats.failedCount}
+            </p>
           </div>
         </div>
         <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
-          <div className="bg-blue-50 p-3 rounded-xl text-blue-600">
+          <div className="bg-blue-50 p-3 rounded-xl text-blue-700">
             <ShieldCheck size={20} />
           </div>
           <div>
-            <p className="text-xs font-bold text-gray-400 uppercase">Total Logged</p>
-            <p className="text-xl font-black text-gray-900">{payments.length}</p>
+            <p className="text-xs font-bold text-gray-400 uppercase">
+              Total Logged
+            </p>
+            <p className="text-xl font-black text-gray-900">
+              {payments.length}
+            </p>
           </div>
         </div>
       </div>
@@ -107,7 +128,10 @@ const PaymentManager = () => {
       {/* Filter Bar */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" size={18} />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"
+            size={18}
+          />
           <input
             type="text"
             placeholder="Search by Order ID or User ID..."
@@ -118,7 +142,10 @@ const PaymentManager = () => {
         </div>
 
         <div className="relative group">
-          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" size={18} />
+          <Filter
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"
+            size={18}
+          />
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
@@ -135,57 +162,72 @@ const PaymentManager = () => {
       {/* Table Section */}
       <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
         <table className="w-full text-left">
-          <thead className="bg-gray-50 border-b border-gray-100">
-            <tr>
-              <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Identity</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Amount</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Method</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase text-center">Status</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase text-right">Date</th>
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
+              <th className="px-6 py-4 font-semibold border-b">Identity</th>
+              <th className="px-6 py-4 font-semibold border-b">Amount</th>
+              <th className="px-6 py-4 font-semibold border-b">Method</th>
+              <th className="px-6 py-4 font-semibold border-b text-center">
+                Status
+              </th>
+              <th className="px-6 py-4 font-semibold border-b text-right">
+                Date
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
             {filtered.length > 0 ? (
               filtered.map((p) => (
-                <tr key={p._id} className="hover:bg-gray-50/50 transition-colors">
+                <tr
+                  key={p._id}
+                  className="hover:bg-gray-50/50 transition-colors"
+                >
                   <td className="px-6 py-5">
-                    <div className="text-sm font-bold text-gray-700 flex items-center gap-2">
-                      <CreditCard size={14} className="text-gray-400" /> 
+                    <div className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+                      <CreditCard size={14} className="text-gray-400" />
                       Order: {p.order_id.slice(-6)}
                     </div>
-                    <div className="text-[10px] font-mono text-gray-400 mt-1 flex items-center gap-1 uppercase">
+                    <div className="text-[10px] font-semibold text-gray-600 mt-1 flex items-center gap-1 uppercase">
                       <Hash size={10} /> User: {p.user_id}
                     </div>
                   </td>
-                  <td className="px-6 py-5 font-bold text-gray-700 text-sm">
+                  <td className="px-6 py-5 font-semibold text-gray-800 text-sm">
                     {p.currency} {p.amount}
                   </td>
                   <td className="px-6 py-5">
-                    <div className="text-xs font-bold text-gray-700 uppercase tracking-tighter">
+                    <div className="text-xs font-semibold text-gray-800 uppercase tracking-tighter">
                       {p.provider} • {p.payment_method || "N/A"}
                     </div>
                     {p.card && (
-                      <div className="text-[10px] text-blue-500 font-bold mt-0.5">
+                      <div className="text-[10px] text-blue-500 font-semibold mt-0.5">
                         {p.card_network} **** {p.card}
                       </div>
                     )}
                   </td>
                   <td className="px-6 py-5 text-center">
-                    <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase border ${
-                      p.status === "SUCCESS" ? "bg-green-50 text-green-600 border-green-100" : 
-                      p.status === "FAILED" ? "bg-red-50 text-red-700 border-red-100" : "bg-gray-50 text-gray-500 border-gray-100"
-                    }`}>
+                    <span
+                      className={`px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase border ${
+                        p.status === "SUCCESS"
+                          ? "bg-green-50 text-green-600 border-green-200"
+                          : p.status === "FAILED"
+                            ? "bg-red-50 text-red-700 border-red-100"
+                            : "bg-gray-50 text-gray-600 border-gray-200"
+                      }`}
+                    >
                       {p.status}
                     </span>
                   </td>
-                  <td className="px-6 py-5 text-right text-xs font-bold text-gray-500">
+                  <td className="px-6 py-5 text-right text-xs font-semibold text-gray-800">
                     {new Date(p.createdAt).toLocaleDateString()}
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="px-6 py-10 text-center text-gray-500 italic">
+                <td
+                  colSpan="5"
+                  className="px-6 py-10 text-center text-gray-500 italic"
+                >
                   No records found matching your filters.
                 </td>
               </tr>
