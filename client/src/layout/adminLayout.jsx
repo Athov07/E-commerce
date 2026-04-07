@@ -63,11 +63,11 @@ const AdminLayout = () => {
     <div className="flex min-h-screen bg-gray-100">
       <aside className="fixed left-0 top-0 h-screen w-64 bg-slate-900 text-slate-300 flex flex-col shadow-xl z-50">
         <div className="p-6 flex items-center gap-3 border-b border-slate-800">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
-            A
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <Package className="text-white" size={20} />
           </div>
-          <span className="text-xl font-bold text-white tracking-tight">
-            AdminPanel
+          <span className="text-xl font-bold tracking-tight text-white-900">
+            SwiftStore
           </span>
         </div>
 
@@ -116,13 +116,30 @@ const AdminLayout = () => {
 
       <div className="flex-grow ml-64 flex flex-col">
         <header className="fixed top-0 right-0 left-64 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8 z-40 shadow-sm">
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex items-center gap-6 text-sm text-gray-500 align-center">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
+              A
+            </div>
+            <span className="text-xl font-bold text-black tracking-tight">
+              AdminPanel
+            </span>
+            <div className="text-sm text-black mt-1">
             <span>Pages</span>
             <span>/</span>
             <span className="text-gray-900 font-medium capitalize">
               {window.location.pathname.split("/").pop().replace("-", " ")}
             </span>
+            </div>
           </div>
+
+
+          {/* <div className="flex items-center gap-4">
+            <div className="text-right hidden sm:block">
+              <p className="text-sm font-semibold text-gray-900">System Admin</p>
+              <p className="text-xs text-gray-500">admin@ecommerce.com</p>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-blue-400 border-2 border-white shadow-sm"></div>
+          </div> */}
         </header>
 
         <main className="mt-16 p-8 min-h-[calc(100vh-64px)]">
