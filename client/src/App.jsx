@@ -21,6 +21,7 @@ import OrderDetailsPage from './pages/store/OrderDetailsPage';
 import Profile from './pages/store/Profile';
 
 // Admin Pages
+import Dashboard from './pages/admin/Dashboard';
 import UserManager from './pages/admin/UserManager';
 import ProductManager from './pages/admin/ProductManager';
 import CategoryManager from './pages/admin/CategoryManager';
@@ -58,7 +59,7 @@ function App() {
         {/* --- Protected Admin Routes --- */}
         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
           <Route element={<AdminLayout />}>
-            <Route path="/admin/dashboard" element={<div className="text-2xl font-bold">Admin Stats Overview</div>} />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/users" element={<UserManager />} />
             <Route path="/admin/products" element={<ProductManager />} />
             <Route path="/admin/category" element={<CategoryManager />} />

@@ -76,7 +76,7 @@ const CategoryManager = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* Form Section */}
-        <div className="lg:col-span-1 bg-white p-6 rounded-2xl border shadow-sm h-auto overflow-visible">
+        <div className="lg:col-span-1 bg-white p-6 rounded-2xl border border-gray-300 shadow-lg h-auto overflow-visible">
           <h2 className="text-sm font-bold text-gray-700 mb-4 uppercase tracking-wider">
             Create New
           </h2>
@@ -86,7 +86,7 @@ const CategoryManager = () => {
               placeholder="e.g. Organic Millets"
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
-              className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+              className="w-full p-3 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
               required
             />
             <button
@@ -106,7 +106,6 @@ const CategoryManager = () => {
 
         {/* Table Section */}
         <div className="lg:col-span-2 space-y-4">
-          {/* Search Input for Categories */}
           <div className="relative group">
             <Search
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"
@@ -117,13 +116,13 @@ const CategoryManager = () => {
               placeholder="Search categories..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
+              className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
             />
           </div>
 
-          <div className="bg-white rounded-2xl border shadow-sm overflow-hidden">
-            <div className="p-4 border-b bg-gray-50/50">
-              <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
+          <div className="bg-white rounded-2xl border border-gray-300 shadow-sm overflow-hidden">
+            <div className="p-4 border-b border-gray-300 bg-gray-50/50">
+              <h2 className="text-sm font-semibold text-gray-800 uppercase tracking-wider">
                 Available Categories
               </h2>
             </div>
@@ -132,8 +131,8 @@ const CategoryManager = () => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-50 text-gray-600 text-xs uppercase font-bold">
-                    <th className="p-4 border-b">Category Name</th>
-                    <th className="p-4 border-b text-center w-24">Actions</th>
+                    <th className="p-4 border-b border-gray-300">Category Name</th>
+                    <th className="p-4 border-b border-gray-300 text-center w-24">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">

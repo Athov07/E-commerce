@@ -82,7 +82,7 @@ const ProfileManager = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="bg-blue-50 p-3 rounded-xl text-blue-600">
               <Users size={24} />
@@ -96,7 +96,7 @@ const ProfileManager = () => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="bg-green-50 p-3 rounded-xl text-green-600">
               <UserCheck size={24} />
@@ -122,14 +122,14 @@ const ProfileManager = () => {
         <input
           type="text"
           placeholder="Search by name, phone number, or User ID..."
-          className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-sm"
+          className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all text-sm"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
       {/* Table Container */}
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-3xl border border-gray-300 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead className="bg-gray-50 border-b border-gray-200">
@@ -170,9 +170,6 @@ const ProfileManager = () => {
                         <div>
                           <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
                             {profile.fullName || "Unset Name"}
-                          </p>
-                          <p className="text-[10px] text-gray-400 font-medium">
-                            Standard Account
                           </p>
                         </div>
                       </div>

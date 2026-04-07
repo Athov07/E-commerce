@@ -73,14 +73,14 @@ const UserManager = () => {
                   placeholder="Search by phone number..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 outline-none"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 outline-none"
                 />
               </div>
               <div className="relative">
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value)}
-                  className="appearance-none pl-4 pr-10 py-2 border border-gray-200 rounded-lg bg-white outline-none cursor-pointer"
+                  className="appearance-none pl-4 pr-10 py-2 border border-gray-300 rounded-lg bg-white outline-none cursor-pointer"
                 >
                   <option value="">All Roles</option>
                   <option value="admin">Admin</option>
@@ -95,7 +95,7 @@ const UserManager = () => {
             </div>
 
             {/* USER TABLE */}
-            <div className="overflow-x-auto border border-gray-100 rounded-xl">
+            <div className="overflow-x-auto border border-gray-300 rounded-xl">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">

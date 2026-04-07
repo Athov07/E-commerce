@@ -98,7 +98,7 @@ const OrderManager = () => {
             placeholder="Search by Order ID or Phone..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
           />
         </div>
         <div className="relative">
@@ -109,7 +109,7 @@ const OrderManager = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none font-sm text-gray-400"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none font-sm text-gray-400"
           >
             <option value="ALL">All Statuses</option>
             {statusOptions.map((opt) => (
@@ -122,7 +122,7 @@ const OrderManager = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden">
+      <div className="bg-white rounded-3xl border border-gray-300 shadow-md overflow-hidden">
         <table className="w-full text-left ml-8">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">

@@ -86,7 +86,7 @@ const PaymentManager = () => {
 
       {/* Stats Summary Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-4">
           <div className="bg-green-50 p-3 rounded-xl text-green-700">
             <IndianRupee size={20} />
           </div>
@@ -99,7 +99,7 @@ const PaymentManager = () => {
             </p>
           </div>
         </div>
-        <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-4">
           <div className="bg-red-50 p-3 rounded-xl text-red-700">
             <XCircle size={20} />
           </div>
@@ -110,7 +110,7 @@ const PaymentManager = () => {
             </p>
           </div>
         </div>
-        <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-4">
           <div className="bg-blue-50 p-3 rounded-xl text-blue-700">
             <ShieldCheck size={20} />
           </div>
@@ -137,7 +137,7 @@ const PaymentManager = () => {
             placeholder="Search by Order ID or User ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm text-sm"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm text-sm"
           />
         </div>
 
@@ -149,7 +149,7 @@ const PaymentManager = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none text-gray-500 text-sm"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none text-gray-500 text-sm"
           >
             <option value="">All Statuses</option>
             <option value="SUCCESS">Success</option>
@@ -160,7 +160,7 @@ const PaymentManager = () => {
       </div>
 
       {/* Table Section */}
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-3xl border border-gray-300 shadow-sm overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr className="bg-gray-50 text-gray-600 text-sm uppercase tracking-wider">
