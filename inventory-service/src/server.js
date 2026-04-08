@@ -5,6 +5,7 @@ import { connectDB } from "./config/db.js";
 import { connectKafka } from "./kafka/kafkaClient.js";
 import { createTopics } from "./kafka/topics/topics.js";
 import { runOrderConsumer } from "./kafka/consumers/order.consumer.js";
+import { startProductSync } from "./kafka/consumers/product.consumer.js";
 
 const PORT = process.env.PORT;
 
@@ -18,6 +19,8 @@ const startServer = async () => {
 
         // 3. Ensure Inventory topics exist
         await createTopics();
+
+        startProductSync();
 
         // 4. Start listening for "order-placed" events
         runOrderConsumer();

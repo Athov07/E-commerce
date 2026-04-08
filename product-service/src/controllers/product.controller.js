@@ -7,6 +7,9 @@ import {
   updateProductService,
   deleteProductService,
 } from "../services/product.service.js";
+import { sendProductEvent } from "../kafka/producers/product.producer.js";
+import { PRODUCT_EVENTS } from "../kafka/kafkaEvents.js";
+
 
 /*
 Admin: Add a new product with images
@@ -67,6 +70,12 @@ export const addProduct = asyncHandler(async (req, res) => {
     attributes: parsedAttributes,
     main_image: mainImage.url,
     gallery: galleryUrls,
+  });
+
+  await sendProductEvent(PRODUCT_EVENTS.PRODUCT_CREATED, {
+    _id: product._id,
+    name: product.name,
+    stock: product.stock 
   });
 
   return res.status(201).json({
