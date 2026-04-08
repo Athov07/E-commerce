@@ -101,6 +101,18 @@ const profileProxy = createProxyMiddleware({
 });
 
 
+const inventoryProxy = createProxyMiddleware({
+  target: process.env.INVENTORY_SERVICE_URL,
+  pathRewrite: {
+    '^/api/inventory': '', 
+  },
+  onProxyReq: (proxyReq, req, res) => {
+    console.log(`[Gateway]: Inventory Request -> ${req.method} ${req.url}`);
+  }
+});
+
+
+
 // 3. Apply Routes
 app.use('/api/auth', authProxy);
 app.use('/api/admin', authProxy);
@@ -110,6 +122,7 @@ app.use("/api/address", addressProxy);
 app.use("/api/order", orderProxy);
 app.use("/api/payment", paymentProxy);
 app.use("/api/profile", profileProxy);
+app.use('/api/inventory', inventoryProxy);
 
 
 

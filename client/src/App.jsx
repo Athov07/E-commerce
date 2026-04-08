@@ -29,6 +29,7 @@ import OrderManager from './pages/admin/OrderManager';
 import AddressManager from './pages/admin/AddressManager';
 import PaymentManager from './pages/admin/PaymentManager';
 import ProfileManager from './pages/admin/ProfileManager';
+import InventoryManager from './pages/admin/InventoryManager';
 
 // Protection
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -67,6 +68,7 @@ function App() {
             <Route path="/admin/addresses" element={<AddressManager />} />
             <Route path="/admin/payments" element={<PaymentManager />} />
             <Route path="/admin/profiles" element={<ProfileManager />} />
+            <Route path="/admin/inventories" element={<InventoryManager />} />
             {/* Add other admin routes here */}
           </Route>
         </Route>

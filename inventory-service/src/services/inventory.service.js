@@ -36,3 +36,13 @@ export const reduceStock = async (productId, quantity) => {
         { new: true }
     );
 };
+
+
+export const getAllInventory = async () => {
+    return await Inventory.find({}).sort({ updated_at: -1 });
+};
+
+
+export const deleteInventoryItem = async (productId) => {
+    return await Inventory.findOneAndDelete({ product_id: productId });
+};

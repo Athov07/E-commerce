@@ -44,3 +44,28 @@ export const getStock = asyncHandler(async (req, res) => {
         data: inventory
     });
 });
+
+
+export const fetchAllInventory = asyncHandler(async (req, res) => {
+    const data = await inventoryService.getAllInventory(); 
+    res.status(200).json({
+        success: true,
+        data: data
+    });
+});
+
+
+export const removeInventory = asyncHandler(async (req, res) => {
+    const { productId } = req.params;
+
+    const deletedItem = await inventoryService.deleteInventoryItem(productId);
+
+    if (!deletedItem) {
+        throw new ApiError(404, "Inventory item not found");
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Product removed from inventory successfully"
+    });
+});

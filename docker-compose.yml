@@ -64,6 +64,7 @@ services:
       - ORDER_SERVICE_URL=http://order-service:5500
       - PAYMENT_SERVICE_URL=http://payment-service:5600
       - PROFILE_SERVICE_URL=http://profile-service:5700
+      - INVENTORY_SERVICE_URL=http://inventory-service:5800
     depends_on:
       - auth-service
       - product-service
@@ -72,6 +73,7 @@ services:
       - order-service
       - payment-service
       - profile-service
+      - inventory-service
 
 
   product-service:
@@ -152,6 +154,20 @@ services:
       - "5700:5700"
     environment:
       - PORT=5700
+      - KAFKA_BROKER=kafka:29092
+      - MONGO_URI=${DATABASE_URL}
+    depends_on:
+      - kafka
+
+
+  inventory-service:
+    build:
+      context: ./inventory-service
+      dockerfile: Dockerfile
+    ports:
+      - "5800:5800"
+    environment:
+      - PORT=5800
       - KAFKA_BROKER=kafka:29092
       - MONGO_URI=${DATABASE_URL}
     depends_on:

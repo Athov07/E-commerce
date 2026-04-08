@@ -52,6 +52,11 @@ const AdminLayout = () => {
       path: "/admin/profiles",
       icon: <UserCircle size={20} />,
     },
+    {
+      name: "Inventory Manager",
+      path: "/admin/inventories",
+      icon: <Boxes size={20} />,
+    },
   ];
 
   const handleLogout = () => {

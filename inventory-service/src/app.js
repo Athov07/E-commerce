@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Routes
-app.use("/api/inventory", inventoryRoutes);
+app.use("/", inventoryRoutes);
 
 // GLOBAL ERROR MIDDLEWARE (Must be last)
 app.use(errorMiddleware);
