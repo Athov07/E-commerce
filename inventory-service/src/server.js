@@ -4,8 +4,8 @@ import app from "./app.js";
 import { connectDB } from "./config/db.js";
 import { connectKafka } from "./kafka/kafkaClient.js";
 import { createTopics } from "./kafka/topics/topics.js";
-import { runOrderConsumer } from "./kafka/consumers/order.consumer.js";
-import { startProductSync } from "./kafka/consumers/product.consumer.js";
+// import { runOrderConsumer } from "./kafka/consumers/order.consumer.js";
+// import { startProductSync } from "./kafka/consumers/product.consumer.js";
 import { startInventoryConsumers } from "./kafka/consumers/combined.consumer.js";
 
 const PORT = process.env.PORT;
