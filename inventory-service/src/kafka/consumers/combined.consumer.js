@@ -9,38 +9,51 @@ export const startInventoryConsumers = async () => {
     await consumer.subscribe({ topic: "order-events", fromBeginning: true });
 
     await consumer.run({
-      eachMessage: async ({ topic, message }) => {
+      autoCommit: false,
+      eachMessage: async ({ topic, partition, message, heartbeat }) => {
         const rawData = JSON.parse(message.value.toString());
         const { event, payload } = rawData;
         const orderId = payload._id || payload.order_id;
 
         if (topic === "order-events" && event === "ORDER_CREATED") {
           try {
-            // PROOF STEP: Record exactly when the message was received after downtime
             logAudit("INVENTORY-SERVICE", "ORDER_RECEIVED", orderId, "SUCCESS");
 
             const items = payload.items || payload.products;
-            if (!items) return;
+            if (items) {
+              for (const item of items) {
+                const pid = item.productId || item.product_id;
+                const qty = item.quantity || item.qty;
 
-            for (const item of items) {
-              const pid = item.productId || item.product_id;
-              const qty = item.quantity || item.qty;
-
-              const updated = await Inventory.findOneAndUpdate(
-                { product_id: pid },
-                { $inc: { stock: -qty } },
-                { returnDocument: "after" }
-              );
-
-              if (updated) {
-                // PROOF STEP: Record that consistency is now achieved
-                logAudit("INVENTORY-SERVICE", "STOCK_UPDATED", orderId, "SUCCESS");
+                await Inventory.findOneAndUpdate(
+                  { product_id: pid },
+                  { $inc: { stock: -qty } },
+                  { returnDocument: "after" },
+                );
+                logAudit(
+                  "INVENTORY-SERVICE",
+                  "STOCK_UPDATED",
+                  orderId,
+                  "SUCCESS",
+                );
               }
             }
+
+            await consumer.commitOffsets([
+              {
+                topic,
+                partition,
+                offset: (BigInt(message.offset) + 1n).toString(),
+              },
+            ]);
           } catch (error) {
-            // PROOF STEP: Record failures for "Failure -> Retry" analysis
-            logAudit("INVENTORY-SERVICE", "STOCK_UPDATED", orderId, "RETRY_REQUIRED");
-            throw error; // Re-throw so Kafka retries
+            logAudit(
+              "INVENTORY-SERVICE",
+              "STOCK_UPDATED",
+              orderId,
+              "RETRY_REQUIRED",
+            );
+            throw error;
           }
         }
       },

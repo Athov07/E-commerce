@@ -1,3 +1,4 @@
+import { performance } from 'perf_hooks';
 import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
@@ -5,6 +6,8 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import fs from 'fs';
+import path from 'path';
 
 const app = express();
 
@@ -15,6 +18,35 @@ app.use(cors({
   credentials: true
 }));   
 app.use(morgan('dev')); 
+
+
+app.use((req, res, next) => {
+  req._researchStart = performance.now();
+  res.on('finish', () => {
+    if (req.originalUrl.includes('/api/order/create')) {
+      const duration = (performance.now() - req._researchStart).toFixed(3);
+      const logEntry = `${new Date().toISOString()},ORDER-SERVICE,${req.method},${req.originalUrl},${duration}ms\n`;
+      
+      try {
+        fs.appendFileSync('/app/gateway_performance.csv', logEntry);
+        console.log(`>>> RESEARCH_METRIC: Captured ${duration}ms for Order Creation`);
+      } catch (err) {
+        console.error(">>> CSV_WRITE_ERROR:", err.message);
+      }
+    }
+  });
+  next();
+});
+
+
+// Helper to log Gateway performance for your research
+const logGatewayPerformance = (serviceName, method, url, duration) => {
+    const timestamp = new Date().toISOString();
+    const logEntry = `${timestamp},${serviceName},${method},${url},${duration}ms\n`;
+    
+    fs.appendFileSync(path.join(process.cwd(), 'gateway_performance.csv'), logEntry);
+};
+
 
 // 2. Auth Service Proxy (Handles /api/auth and /api/admin)
 const authProxy = createProxyMiddleware({
