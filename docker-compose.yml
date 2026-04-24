@@ -130,6 +130,8 @@ services:
       - MONGO_URI=${DATABASE_URL}
     depends_on:
       - kafka
+    volumes:
+      - ./order-service/service_audit.csv:/app/service_audit.csv
 
 
   payment-service:
@@ -172,3 +174,5 @@ services:
       - MONGO_URI=${DATABASE_URL}
     depends_on:
       - kafka
+    volumes:
+      - ./inventory-service/service_audit.csv:/app/service_audit.csv
