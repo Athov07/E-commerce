@@ -1,12 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ShoppingCart, CheckCircle, AlertCircle, Loader2, Check } from "lucide-react";
 import cartService from "../../services/cart.service";
+import inventoryService from "../../services/inventory.service"; // Imported inventory service
 
 const ProductDetails = ({ product }) => {
   const [adding, setAdding] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  
+  // State to manage real-time stock specifically from the inventory-service
+  const [currentStock, setCurrentStock] = useState(product?.stock || 0);
 
-  // Helper to get current user_id (Synchronized with ProductCard and Cart)
+  // Fetch live stock level when the component loads or the product changes
+  useEffect(() => {
+    const fetchLiveStock = async () => {
+      try {
+        const response = await inventoryService.getStock(product._id);
+        // Assuming your inventory service returns data in the format { success: true, data: { stock: 50 } }
+        if (response?.success && response?.data) {
+          setCurrentStock(response.data.stock);
+        } else if (typeof response?.data === 'number') {
+          // Fallback if data is returned as a direct number
+          setCurrentStock(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching live inventory:", error);
+        // If fetch fails, we fall back to the initial product.stock passed via props
+        setCurrentStock(product.stock || 0);
+      }
+    };
+
+    if (product?._id) {
+      fetchLiveStock();
+    }
+  }, [product?._id, product.stock]);
+
+  // Helper to get current user_id
   const getUserId = () => {
     const userData = localStorage.getItem("user");
     if (userData) {
@@ -67,9 +95,11 @@ const ProductDetails = ({ product }) => {
         <span className="text-4xl font-black text-gray-900">
           Rs. {product.price}
         </span>
-        {product.stock > 0 ? (
+        
+        {/* Real-time Stock Indicator based on currentStock */}
+        {currentStock > 0 ? (
           <span className="flex items-center gap-1 text-green-600 text-sm font-medium bg-green-50 px-3 py-1 rounded-full">
-            <CheckCircle size={14} /> In Stock ({product.stock})
+            <CheckCircle size={14} /> In Stock ({currentStock})
           </span>
         ) : (
           <span className="flex items-center gap-1 text-red-600 text-sm font-medium bg-red-50 px-3 py-1 rounded-full">
@@ -94,9 +124,10 @@ const ProductDetails = ({ product }) => {
         </div>
       )}
 
+      {/* Button disabled if currentStock is 0 */}
       <button
         onClick={handleAddToCart}
-        disabled={product.stock === 0 || adding}
+        disabled={currentStock <= 0 || adding}
         className={`w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-xl font-bold transition-all shadow-lg ${
           isSuccess 
             ? "bg-green-600 text-white shadow-green-100" 
